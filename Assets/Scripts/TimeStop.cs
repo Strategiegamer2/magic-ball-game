@@ -26,14 +26,13 @@ public class TimeStop : MonoBehaviour
         {
             TimeStopAbilityCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StartCoroutine(ZaWardo());
-        }
-
+    }
+    public void PlayAnimatoin()
+    {
+        StartCoroutine(ZaWardo());
     }
 
-    IEnumerator ZaWardo()
+    private IEnumerator ZaWardo()
     {
         if (TimeStopAbilityCoolDown < 0)
         {

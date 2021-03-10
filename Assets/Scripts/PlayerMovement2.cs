@@ -8,12 +8,14 @@ public class PlayerMovement2 : MonoBehaviour
 
     [SerializeField] private Transform cam;
 
-    public float xForce = 10.0f;
-    public float zForce = 10.0f;
     public float speed;
 
     private float turnSmoothTime = 0.1f;
     private float turnSmoothVelocity;
+
+    public float xForce = 10.0f;
+    public float zForce = 10.0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +25,6 @@ public class PlayerMovement2 : MonoBehaviour
 
     void Update()
     {
-        //this is for x axis' movement  
 
         float x = 0.0f;
         if (Input.GetKey(KeyCode.A))
@@ -48,6 +49,7 @@ public class PlayerMovement2 : MonoBehaviour
         {
             z = z + zForce;
         }
+
         //this is for z axis' movement  
 
         Vector3 direction = new Vector3(x, 0f, z).normalized;

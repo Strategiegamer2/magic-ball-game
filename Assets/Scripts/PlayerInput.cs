@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotatePlayer : MonoBehaviour
-{
-    //public PlayerMovement playerMovement;
-    public PlayerMovement2 playerMovement2;
+public class PlayerInput : MonoBehaviour
+{ 
 
     // Start is called before the first frame update
     void Start()
@@ -16,6 +14,10 @@ public class RotatePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(360f * playerMovement2.rb.velocity.magnitude * Time.unscaledDeltaTime, 0.0f, 0.0f);
+        //this is for x axis' movement  
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            FindObjectOfType<TimeStop>().PlayAnimatoin();
+        }
     }
 }
