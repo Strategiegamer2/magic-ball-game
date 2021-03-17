@@ -11,7 +11,7 @@ public class TimeStop : MonoBehaviour
     public PostProcessing postProcessing;
 
     public bool ToBeContinued = false;
-    private float TimeStopAbilityCoolDown = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,25 +19,17 @@ public class TimeStop : MonoBehaviour
         TimeShader.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (TimeStopAbilityCoolDown < 60 || TimeStopAbilityCoolDown == 60 )
-        {
-            TimeStopAbilityCoolDown -= Time.deltaTime;
-        }
-    }
     public void PlayAnimatoin()
     {
+        print("Player used Time Stop");
         StartCoroutine(ZaWardo());
     }
 
     private IEnumerator ZaWardo()
     {
-        if (TimeStopAbilityCoolDown < 0)
+        if (GetComponent<SpellCooldownAnimation>().coolDown == 0)
         {
-
-            TimeStopAbilityCoolDown = 120f;
+            GetComponent<SpellCooldownAnimation>().coolDown = 60;
             ToBeContinued = true;
             TimeStopAudio.Play(0);
 
@@ -74,9 +66,11 @@ public class TimeStop : MonoBehaviour
             postProcessing.lensDistortion.enabled.value = false;
             postProcessing.chromaticAberration.enabled.value = false;
 
-            TimeStopAbilityCoolDown = 60f;
             ToBeContinued = false;
-            Debug.Log(TimeStopAbilityCoolDown);
+            GetComponent<SpellCooldownAnimation>().coolDown = 60;
+            GetComponent<SpellCooldownAnimation>().currentCoolDown = GetComponent<SpellCooldownAnimation>().coolDown;
+            GetComponent<SpellCooldownAnimation>().UseSkill("Time Stop");
+
         }
     }
 }
