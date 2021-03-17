@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeStop : MonoBehaviour
 {
@@ -11,25 +12,46 @@ public class TimeStop : MonoBehaviour
     public PostProcessing postProcessing;
 
     public bool ToBeContinued = false;
+    public bool startCooldown;
+    public bool EndCooldown;
 
+    public Image icon;
+
+    public float waitTime;
 
     // Start is called before the first frame update
     void Start()
     {
         TimeShader.SetActive(false);
+        startCooldown = false;
+        EndCooldown = false;
+    }
+
+    private void Update()
+    {
+        if (startCooldown == true)
+        {
+            // Display cooling animation
+            icon.fillAmount += 1.0f / waitTime * Time.deltaTime;
+            if (icon.fillAmount == 1)
+            {
+                EndCooldown = false;
+                startCooldown = false;
+                ToBeContinued = false;
+            }
+        }
     }
 
     public void PlayAnimatoin()
     {
-        print("Player used Time Stop");
         StartCoroutine(ZaWardo());
     }
 
     private IEnumerator ZaWardo()
     {
-        if (GetComponent<SpellCooldownAnimation>().coolDown == 0)
+        if (EndCooldown == false)
         {
-            GetComponent<SpellCooldownAnimation>().coolDown = 60;
+            EndCooldown = true;
             ToBeContinued = true;
             TimeStopAudio.Play(0);
 
@@ -66,11 +88,9 @@ public class TimeStop : MonoBehaviour
             postProcessing.lensDistortion.enabled.value = false;
             postProcessing.chromaticAberration.enabled.value = false;
 
+            icon.fillAmount = 0;
             ToBeContinued = false;
-            GetComponent<SpellCooldownAnimation>().coolDown = 60;
-            GetComponent<SpellCooldownAnimation>().currentCoolDown = GetComponent<SpellCooldownAnimation>().coolDown;
-            GetComponent<SpellCooldownAnimation>().UseSkill("Time Stop");
-
+            startCooldown = true;
         }
     }
 }
